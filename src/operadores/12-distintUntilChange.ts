@@ -1,5 +1,13 @@
-import { from } from 'rxjs';
-import { distinctUntilKeyChanged } from 'rxjs/operators';
+import { from, of } from 'rxjs';
+import { distinct, distinctUntilChanged } from 'rxjs/operators';
+
+const numbers$ = of(1,1,1,1,2,2,3,3,4,5,6,7,7,7,1,1,2,3,10).pipe(
+    distinctUntilChanged()
+)
+
+
+numbers$.subscribe(console.log)
+
 
 
 interface Personaje {
@@ -37,6 +45,6 @@ const personajes:Personaje[]=[
 ]
 
 from(personajes).pipe(
-    distinctUntilKeyChanged<Personaje>('nombre')
+    distinctUntilChanged<Personaje>((ant,act)=>ant.nombre === act.nombre)
 )
 .subscribe(console.log);
